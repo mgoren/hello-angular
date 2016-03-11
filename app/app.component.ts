@@ -1,21 +1,28 @@
-import { Component } from 'angular2/core';
+import { Component, EventEmitter } from 'angular2/core';
 
 // task-list component
 
 @Component({
   selector: 'task-list',
-  inputs: ['tasks'],
+  inputs: ['taskList'],
+  outputs: ['onTaskSelect'],
   template: `
-    <h3 *ngFor="#task of tasks" (click)="taskClicked(task)">
+    <h3 *ngFor="#task of taskList" (click)="taskClicked(task)">
       {{task.description}}
     </h3>
   `
 })
 
 export class TaskListComponent {
-  public tasks: Task[];
-  taskClicked(task: Task): void {
-    console.log(task);
+  public taskList: Task[];
+  public onTaskSelect: EventEmitter<Task>;
+  constructor() {
+    this.onTaskSelect = new EventEmitter();
+  }
+  taskClicked(clickedTask: Task): void {
+    console.log("child:");
+    console.log(clickedTask);
+    this.onTaskSelect.emit(clickedTask);
   }
 }
 
@@ -28,9 +35,7 @@ export class TaskListComponent {
   template: `
     <div class = "container">
       <h1>Todo List</h1>
-      <h3 (click)="showMessage">
-        <task-list [tasks]="tasks"></task-list>
-      </h3>
+      <task-list [taskList]="tasks" (onTaskSelect)="taskWasSelected($event)"></task-list>
     </div>
   `
 })
@@ -45,8 +50,9 @@ export class AppComponent {
       new Task("Do the laundry.", 3)
     ];
   }
-  showMessage() {
-    console.log("click received by my-app component");
+  taskWasSelected(clickedTask: Task): void {
+    console.log("parent:");
+    console.log(clickedTask);
   }
 }
 
