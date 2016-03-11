@@ -5,15 +5,20 @@ import { Component } from 'angular2/core';
   template: `
     <div class = "container">
       <h1>Todo List</h1>
-      <h3>{{ task.description }}</h3>
+      <h3 *ngFor="#task of tasks">{{ task.description }}</h3>
     </div>
   `
 })
 
 export class AppComponent {
-  public task: Task;
+  public tasks: Task[];
   constructor() {
-    this.task = new Task("Go to happy hour!", 0);
+    this.tasks = [
+      new Task("Create To-Do List app.", 0),
+      new Task("Learn Kung Fu.", 1),
+      new Task("Rewatch all the Lord of the Rings movies.", 2),
+      new Task("Do the laundry.", 3)
+    ];
   }
 }
 
