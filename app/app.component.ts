@@ -7,7 +7,7 @@ import { Component, EventEmitter } from 'angular2/core';
   inputs: ['taskList'],
   outputs: ['onTaskSelect'],
   template: `
-    <h3 *ngFor="#task of taskList" (click)="taskClicked(task)">
+    <h3 *ngFor="#task of taskList" (click)="taskClicked(task)" [class.selected]="task === selectedTask">
       {{task.description}}
     </h3>
   `
@@ -16,12 +16,13 @@ import { Component, EventEmitter } from 'angular2/core';
 export class TaskListComponent {
   public taskList: Task[];
   public onTaskSelect: EventEmitter<Task>;
+  public selectedTask: Task;
   constructor() {
     this.onTaskSelect = new EventEmitter();
   }
   taskClicked(clickedTask: Task): void {
-    console.log("child:");
-    console.log(clickedTask);
+    console.log("child:", clickedTask);
+    this.selectedTask = clickedTask;
     this.onTaskSelect.emit(clickedTask);
   }
 }
@@ -51,8 +52,7 @@ export class AppComponent {
     ];
   }
   taskWasSelected(clickedTask: Task): void {
-    console.log("parent:");
-    console.log(clickedTask);
+    console.log("parent:", clickedTask);
   }
 }
 
