@@ -12,7 +12,7 @@ import {DonePipe} from './done.pipe';
   directives: [TaskComponent, NewTaskComponent, EditTaskDetailsComponent],
   pipes: [DonePipe],
   template: `
-  <select (change)="onChange($event.target.value)">
+  <select (change)="onChange($event.target.value)" class="filter">
     <option value="all">Show All</option>
     <option value="done">Show Done</option>
     <option value="notDone" selected="selected">Show Not Done</option>
